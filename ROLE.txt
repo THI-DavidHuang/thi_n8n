@@ -1,0 +1,16 @@
+30. ROLE - 角色群組表
+表名: ROLE
+業務領域: 系統管理
+表類型: 主檔表
+描述: 角色群組，每個使用者代號可隸屬於一個角色群組，套用該角色群組就會直接套用該角色權限
+主鍵結構:
+•	EnterpriseId + RoleId (複合主鍵)
+核心欄位:
+•	EnterpriseId (nvarchar): 企業代碼，主鍵
+•	RoleId (nvarchar): 角色代碼，主鍵
+•	Description (nvarchar): 角色描述
+關聯關係:
+•	一對多 -> UserMaster (透過 RoleId)
+常用查詢模式:
+•	企業角色管理: WHERE EnterpriseId = @EnterpriseId
+•	角色權限分析: GROUP BY RoleId

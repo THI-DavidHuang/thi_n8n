@@ -1,0 +1,29 @@
+6. ROAD_CONTROLLED_LIST - 列管改善路口表
+表名: ROAD_CONTROLLED_LIST 業務領域: 道路改善管理 表類型: 主表 描述: 紀錄列管改善路口的清單資料，包括縣市、行政區、路口名稱、施工與審查狀態等
+主鍵結構:
+•	ENTERPRISEID + PROJECT_ID (複合主鍵)
+核心欄位:
+•	ENTERPRISEID (varchar): 企業代碼，主鍵
+•	PROJECT_ID (varchar): 列管路口編號，主鍵
+•	COUNTYCODE (varchar): 縣市代碼
+•	COUNTYNAME (varchar): 縣市名稱
+•	TOWNCODE (varchar): 行政區代碼
+•	TOWNNAME (varchar): 行政區名稱
+•	PROJECT_NAME (varchar): 列管路口名稱
+•	CONSTRUCTION_STATE (varchar): 施工狀態
+•	COMPLETED_MONTHLY (varchar): 完工日期
+•	CASE_NAME (varchar): 案件名稱
+•	CASE_TYPE (varchar): 案件類型
+•	ROAD_PLACE (varchar): 路口位置描述
+•	REDUCE_METER (decimal): 車道縮減長度(公尺)
+•	ROAD_WIDTH_1 (decimal): 道路寬度1(公尺)
+•	ROAD_WIDTH_2 (decimal): 道路寬度2(公尺)
+•	IMPROVE_ITEM (varchar): 改善項目
+•	REVIEW_STATE (varchar): 審核狀態
+•	AGENCY_CONFIRM (int): 機關確認狀態 (1:待確認、2:待補件、3:已確認)
+•	CONTROLLED_STATE (varchar): 列管狀態
+•	REMARK (text): 備註
+常用查詢模式:
+•	施工進度統計: GROUP BY COUNTYNAME, CONSTRUCTION_STATE
+•	案件類型分析: GROUP BY CASE_TYPE, IMPROVE_ITEM
+•	完工進度追蹤: GROUP BY CONTROLLED_STATE, COMPLETED_MONTHLY

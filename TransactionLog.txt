@@ -1,0 +1,16 @@
+3. TransactionLog - 系統操作紀錄表
+表名: TransactionLog 業務領域: 系統管理 表類型: 日誌表 描述: 紀錄使用者操作系統的行為紀錄，包含登入、瀏覽頁面等紀錄
+核心欄位:
+•	UserId (varchar): 使用者代碼
+•	ParentNode (varchar): 操作頁面父節點
+•	ChildNode (varchar): 操作頁面子節點
+•	LogType (varchar): 操作類型 (登入成功、帳號密碼有誤、驗證頁面等)
+•	Ip (varchar): 使用者操作的來源IP
+•	CreatedDate (datetime): 紀錄建立時間
+關聯關係:
+•	多對一 -> UserMaster (透過 UserId)
+•	多對一 -> Module (透過 ParentNode, ChildNode)
+常用查詢模式:
+•	登入失敗統計: WHERE LogType = '帳號密碼有誤'
+•	每日操作趨勢: GROUP BY CAST(CreatedDate AS DATE)
+•	熱門頁面分析: GROUP BY ParentNode, ChildNode

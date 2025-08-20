@@ -1,0 +1,41 @@
+10. COLLISION_PROJECT - 碰撞案件表
+表名: COLLISION_PROJECT
+業務領域: 交通事故碰撞分析
+表類型: 主表
+描述: 紀錄碰撞案件的基本資訊，包括案件名稱、地理位置、地圖框選範圍、地圖中心點座標與縮放等級，支援事故檢視與碰撞構圖編輯功能
+主鍵結構:
+•	ENTERPRISEID + COLLISION_ID (複合主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵，用於識別資料來源
+•	COLLISION_ID (int): 案件編號，主鍵，自動遞增流水編號 IDENTITY(1,1)
+•	ROLEID (nvarchar(30)): 角色代碼，標識執行操作的使用者角色
+•	PROJECT_NAME (nvarchar(50)): 案件名稱，碰撞分析專案名稱
+•	COUNTYCODE (nvarchar(10)): 縣市代碼，標準行政區代碼
+•	COUNTYNAME (nvarchar(10)): 縣市名稱，對應縣市代碼的中文名稱
+•	TOWNCODE (nvarchar(10)): 行政區代碼，鄉鎮市區層級代碼
+•	TOWNNAME (nvarchar(10)): 行政區名稱，鄉鎮市區中文名稱
+•	ACTION_RECORD (nvarchar(10)): 動作紀錄，記錄操作類型 (事故檢視/碰撞構圖編輯)
+•	PROJECT_STATE (nvarchar(10)): 專案狀態，案件處理狀況 (發布/儲存等)
+•	MAP_GEOM (geometry): 地圖框選範圍，使用SQL Server空間資料型別記錄地理範圍
+•	CENTER_LNG (float): 地圖中心點經度，WGS84座標系統
+•	CENTER_LAT (float): 地圖中心點緯度，WGS84座標系統
+•	MAP_ZOOM (int): 地圖縮放等級，控制地圖顯示詳細程度
+關聯關係:
+•	多對一 -> UserMaster (透過 ROLEID)
+•	可能關聯 -> ACCIDENT_TABLE_ONE (透過地理範圍 MAP_GEOM 進行空間查詢)
+•	可能關聯 -> ROAD_LIST (透過 COUNTYCODE, TOWNCODE)
+常用查詢模式:
+•	案件狀態統計: GROUP BY PROJECT_STATE
+•	縣市案件分布: GROUP BY COUNTYNAME, TOWNNAME
+•	操作類型分析: GROUP BY ACTION_RECORD
+•	角色操作統計: GROUP BY ROLEID, ACTION_RECORD
+•	地理區域查詢: WHERE COUNTYCODE = ? AND TOWNCODE = ?
+•	空間範圍查詢: 使用 MAP_GEOM.STIntersects() 進行空間分析
+•	地圖中心點附近查詢: 使用 CENTER_LNG, CENTER_LAT 計算距離範圍
+•	案件進度追蹤: WHERE PROJECT_STATE IN ('發布', '儲存') ORDER BY COLLISION_ID
+業務用途說明:
+•	碰撞分析專案管理: 建立和管理交通事故碰撞分析案件
+•	地圖視覺化支援: 提供地圖中心點座標和縮放等級，支援GIS展示
+•	空間範圍定義: 透過MAP_GEOM記錄分析的地理範圍邊界
+•	多角色協作: 支援不同角色進行事故檢視和碰撞構圖編輯
+•	案件狀態管控: 追蹤專案從建立、編輯到發布的完整流程

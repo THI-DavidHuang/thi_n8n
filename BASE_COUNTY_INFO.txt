@@ -1,0 +1,33 @@
+18. BASE_COUNTY_INFO - 縣市鄉鎮對照表
+表名: BASE_COUNTY_INFO
+業務領域: 基礎資料管理
+表類型: 代碼表
+描述: 全國縣市鄉鎮行政區劃對照表，包含行政區代碼、中心點座標、地理範圍邊界等資訊，支援地理空間分析與行政區查詢
+主鍵結構:
+•	ENTERPRISEID (主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	COUNTYNAME (nvarchar(10)): 縣市名稱
+•	LIFECYCLECODE (nvarchar(10)): 縣市代碼
+•	COUNTYCODE (nvarchar(10)): 縣市標準代碼
+•	UNITECODE (nvarchar(10)): 統一編碼
+•	AREA_NAME (nvarchar(10)): 鄉鎮區名稱
+•	IS_MUNICIPALITY (int): 直轄市標識
+•	COUNTY_CLASS (int): 縣市分級
+•	CENTER_LAT (nvarchar(30)): 行政區中心點緯度
+•	CENTER_LNG (nvarchar(30)): 行政區中心點經度
+•	MIN_X (nvarchar(30)): 地理範圍最小經度
+•	MAX_X (nvarchar(30)): 地理範圍最大經度
+•	MIN_Y (nvarchar(30)): 地理範圍最小緯度
+•	MAX_Y (nvarchar(30)): 地理範圍最大緯度
+關聯關係:
+•	一對多 -> ACCIDENT_TABLE_ONE (透過 COUNTYNAME)
+•	一對多 -> COLLISION_PROJECT (透過 COUNTYNAME)
+•	一對多 -> ROAD_CONTROLLED_LIST (透過 COUNTYNAME)
+常用查詢模式:
+•	縣市清單查詢: GROUP BY COUNTYNAME
+•	鄉鎮區統計: GROUP BY COUNTYNAME, AREA_NAME
+•	直轄市篩選: WHERE IS_MUNICIPALITY = 1
+•	地理範圍查詢: WHERE 經緯度 BETWEEN MIN_X AND MAX_X
+•	中心點距離計算: 使用 CENTER_LAT, CENTER_LNG 計算距離
+•	行政區分級統計: GROUP BY COUNTY_CLASS

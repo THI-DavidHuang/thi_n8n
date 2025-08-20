@@ -1,0 +1,24 @@
+12. COLLISION_SUBJUNCTION_AZIMUTH - 碰撞案件子路口方位角列表
+表名: COLLISION_SUBJUNCTION_AZIMUTH
+業務領域: 交通事故碰撞分析
+表類型: 明細表
+描述: 紀錄每個子路口各方向道路的方位角資訊，包括道路名稱、方位角度、分隔島設置等，用於精確重建路口幾何
+主鍵結構:
+•	ENTERPRISEID + COLLISION_ID + SUBJUNCTION_ID + AZIMUTH_ID (複合主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	COLLISION_ID (int): 案件編號，主鍵
+•	SUBJUNCTION_ID (int): 子路線編號，主鍵
+•	AZIMUTH_ID (int): 方位角編號，主鍵，單一子路口內的方位編號
+•	ROLEID (nvarchar(30)): 角色代碼
+•	AZIMUTH_VALUE (nvarchar(10)): 方位角度值，以度為單位的角度數值
+•	ROAD_NAME (nvarchar(30)): 該方向的道路名稱
+•	SEPARATION_ISLAND (nvarchar(5)): 快慢車道分隔島設置，Y/N 標示
+關聯關係:
+•	多對一 -> COLLISION_SUBJUNCTION (透過 ENTERPRISEID, COLLISION_ID, SUBJUNCTION_ID)
+常用查詢模式:
+•	方位角分布統計: GROUP BY AZIMUTH_VALUE
+•	道路名稱統計: GROUP BY ROAD_NAME
+•	分隔島設置統計: GROUP BY SEPARATION_ISLAND
+•	子路口方向數量: GROUP BY SUBJUNCTION_ID
+•	特定角度範圍查詢: WHERE CAST(AZIMUTH_VALUE AS FLOAT) BETWEEN 0 AND 90

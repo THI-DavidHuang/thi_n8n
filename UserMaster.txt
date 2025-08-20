@@ -1,0 +1,14 @@
+5. UserMaster - 使用者主檔表
+表名: UserMaster 業務領域: 系統管理 表類型: 主檔表 描述: 系統使用者基本資訊，包含部門、角色等
+主鍵結構:
+•	UserId (主鍵)
+核心欄位:
+•	UserId (varchar): 使用者代碼，主鍵
+•	Username (varchar): 使用者名稱
+•	Department (varchar): 所屬部門
+•	RoleId (varchar): 角色代碼
+關聯關係:
+•	一對多 -> TransactionLog (透過 UserId)
+常用查詢模式:
+•	使用者操作統計: JOIN TransactionLog ON UserId
+•	部門別行為分析: GROUP BY Department

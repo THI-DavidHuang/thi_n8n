@@ -1,0 +1,53 @@
+2. ACCIDENT_TABLE_TWO - 當事人詳細資料表
+表名: ACCIDENT_TABLE_TWO 業務領域: 交通事故管理 表類型: 明細表 描述: 紀錄與事故相關的當事人個別資訊，包括性別、年齡、車種、保護裝備、酒駕情況、肇事逃逸等
+關聯欄位:
+•	ACCIDENT_ID (事故案件編號，外鍵)
+•	ENTERPRISEID (企業代碼，外鍵)
+核心欄位:
+•	PARTIES_GENDER_NAME (varchar): 當事人性別
+•	PARTIES_ACCIDENT_AGE (int): 事故發生時年齡
+•	CITIZENSHIP (varchar): 國籍
+•	PARTIES_BIRTHDAY_YEAR (int): 出生年別
+•	PARTIES_BIRTHDAY_DATE (date): 出生日期
+•	PARTIES_CLASS_NAME (varchar): 車種大類別名稱
+•	PARTIES_CLASS_CODE (varchar): 車種大類別代碼
+•	PARTIES_SUB_CLASS_NAME (varchar): 車種子類別名稱
+•	PARTIES_SUB_CLASS_CODE (varchar): 車種子類別代碼 (C01~C05機車, H01行人等)
+•	LICENSE_TYPE_NAME (varchar): 牌照種類名稱
+•	LICENSE_TYPE_CODE (varchar): 牌照種類代碼
+•	VEHICULAR_USE_NAME (varchar): 車輛用途名稱
+•	VEHICULAR_USE_CODE (varchar): 車輛用途代碼
+•	INJURIED_DEGREE_NAME (varchar): 受傷程度名稱
+•	INJURIED_DEGREE_CODE (varchar): 受傷程度代碼
+•	INJURIED_MAIN_NAME (varchar): 主要傷處名稱
+•	INJURIED_MAIN_CODE (varchar): 主要傷處代碼
+•	HOSPITAL (varchar): 就醫醫院
+•	PROTECTIVE_EQUIPMENT_NAME (varchar): 保護裝備使用情形
+•	CAUSE_ATTRBUTION_CLASS_NAME (varchar): 肇因研判大類別名稱
+•	CAUSE_ATTRBUTION_CLASS_CODE (varchar): 肇因研判大類別代碼
+•	CAUSE_ATTRBUTION_SUB_CLASS_NAME (varchar): 肇因研判子類別名稱
+•	CAUSE_ATTRBUTION_SUB_CLASS_CODE (varchar): 肇因研判子類別代碼
+•	CAUSE_RUN_NAME (varchar): 肇事逃逸情形名稱
+•	CAUSE_RUN_CODE (varchar): 肇事逃逸情形代碼
+•	ACCIDENT_CAUSE (text): 肇事或違規事實描述
+•	DRIVING_LICENSE_STATUS_NAME (varchar): 駕照狀態名稱
+•	DRIVING_LICENSE_STATUS_CODE (varchar): 駕照狀態代碼
+•	DRIVING_EQUALIFICATION_NAME (varchar): 駕駛資格情形名稱
+•	DRIVING_EQUALIFICATION_CODE (varchar): 駕駛資格情形代碼
+•	DRIVING_LICENSE_TYPE_CLASS_NAME (varchar): 駕照種類大類別名稱
+•	DRIVING_LICENSE_TYPE_SUB_CLASS_NAME (varchar): 駕照種類子類別名稱
+•	DRINKING_STATUS_NAME (varchar): 飲酒情形名稱
+•	DRINKING_STATUS_CODE (int): 飲酒情形代碼 (4～8表示酒駕)
+•	ELECTRONIC_EQUIPMENT_NAME (varchar): 行動裝置使用情形名稱
+•	RIDE_PARTIES_CLASS_NAME (varchar): 乘坐車輛的車種大類別名稱
+•	RIDE_PARTIES_SUB_CLASS_NAME (varchar): 乘坐車輛的車種子類別名稱
+•	RIDE_LICENSE_TYPE_NAME (varchar): 乘坐車輛的牌照類型名稱
+關聯關係:
+•	多對一 -> ACCIDENT_TABLE_ONE (透過 ACCIDENT_ID, ENTERPRISEID)
+•	多對一 -> BASE_PARTIES_CLASS (透過 PARTIES_SUB_CLASS_CODE)
+常用查詢模式:
+•	年齡車種性別分析: GROUP BY PARTIES_ACCIDENT_AGE, PARTIES_SUB_CLASS_NAME, PARTIES_GENDER_NAME
+•	酒駕分析: WHERE DRINKING_STATUS_CODE BETWEEN 4 AND 8
+•	無照駕駛分析: 依日期判斷無照代碼範圍
+•	受傷程度分析: GROUP BY INJURIED_DEGREE_NAME
+•	肇事逃逸分析: WHERE CAUSE_RUN_NAME = '是'

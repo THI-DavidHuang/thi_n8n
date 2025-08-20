@@ -1,0 +1,19 @@
+13. COLLISION_ICON_INFO - 碰撞案件ICON資訊列表
+表名: COLLISION_ICON_INFO
+業務領域: 交通事故碰撞分析
+表類型: 明細表
+描述: 紀錄碰撞分析圖中各種ICON元件的位置、大小、旋轉角度等視覺化資訊，支援碰撞重建圖的精確繪製
+主鍵結構:
+•	ENTERPRISEID + COLLISION_ID + ICON_GROUP_ID (複合主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	COLLISION_ID (int): 案件編號，主鍵
+•	ICON_GROUP_ID (int): 群組編號，主鍵，ICON分組識別碼
+•	ICON_NAME (nvarchar(30)): ICON名稱，圖示類型標識
+•	LNG (float): ICON經度座標位置
+•	LAT (float): ICON緯度座標位置
+•	WIDTH (float): ICON寬度，像素或地圖單位
+•	HEIGHT (float): ICON高度，像素或地圖單位
+•	ROTATE (float): 旋轉角度，以度為單位的旋轉角度
+關聯關係:
+•	多對一 -> COLLISION_PROJECT (透過 ENTERPRISEID, COLLISION_ID)

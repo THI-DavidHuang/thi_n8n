@@ -1,0 +1,29 @@
+14. COLLISION_ACCIDENT_EVALUATE - 事故類型評估表
+表名: COLLISION_ACCIDENT_EVALUATE
+業務領域: 交通事故碰撞分析
+表類型: 分析表
+描述: 紀錄特定事故的碰撞類型評估結果，包括碰撞圖塊分類、子路口資訊、車道類型等，用於事故型態分析
+主鍵結構:
+•	ENTERPRISEID + COLLISION_ID + ACCIDENT_ID (複合主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	COLLISION_ID (int): 案件編號，主鍵
+•	ACCIDENT_ID (nvarchar(30)): 事故編號，主鍵，關聯原始事故資料
+•	COLLISION_TYPE_SUB_CLASS_CODE (nvarchar(20)): 碰撞圖塊類型子類別代碼
+•	COLLISION_TYPE_SUB_CLASS_NAME (nvarchar(20)): 碰撞圖塊類型子類別名稱
+•	SUBROUTE_ID (nvarchar(30)): 子路口編號
+•	SUBROUTE_LNG (float): 子路口經度座標
+•	SUBROUTE_LAT (float): 子路口緯度座標
+•	ROAD_ENDPOINT (nvarchar(30)): 路口端標識
+•	LANE_TYPE (nvarchar(30)): 車道類型分類
+關聯關係:
+•	多對一 -> COLLISION_PROJECT (透過 ENTERPRISEID, COLLISION_ID)
+•	可能關聯 -> ACCIDENT_TABLE_ONE (透過 ACCIDENT_ID)
+•	一對多 -> COLLISION_ACCIDENT_EVALUATE_PARTIES (透過 ENTERPRISEID, COLLISION_ID, ACCIDENT_ID)
+常用查詢模式:
+•	碰撞類型統計: GROUP BY COLLISION_TYPE_SUB_CLASS_NAME
+•	車道類型分析: GROUP BY LANE_TYPE
+•	路口端統計: GROUP BY ROAD_ENDPOINT
+•	子路口事故分布: GROUP BY SUBROUTE_ID
+•	空間熱區分析: 使用 SUBROUTE_LNG, SUBROUTE_LAT 進行群集分析
+•	案件事故關聯查詢: JOIN with ACCIDENT_TABLE_ONE ON ACCIDENT_ID

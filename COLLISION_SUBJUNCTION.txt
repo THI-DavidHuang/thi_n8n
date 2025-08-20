@@ -1,0 +1,31 @@
+11. COLLISION_SUBJUNCTION - 碰撞案件子路口列表
+表名: COLLISION_SUBJUNCTION
+業務領域: 交通事故碰撞分析
+表類型: 明細表
+描述: 紀錄碰撞案件中的子路口基本資訊，包括路口座標、岔入口數量等，用於建構複雜路口的幾何結構
+主鍵結構:
+•	ENTERPRISEID + COLLISION_ID + SUBJUNCTION_ID (複合主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	COLLISION_ID (int): 案件編號，主鍵，關聯至碰撞案件表
+•	SUBJUNCTION_ID (int): 子路線編號，主鍵，路口內部編號
+•	ROLEID (nvarchar(30)): 角色代碼，執行操作的使用者角色
+•	SUBJUNCTION_LAT (float): 子路口緯度座標，WGS84座標系統
+•	SUBJUNCTION_LNG (float): 子路口經度座標，WGS84座標系統
+•	SUBJUNCTION_NUMBER (int): 岔入口數量，該子路口的道路分叉數
+關聯關係:
+•	多對一 -> COLLISION_PROJECT (透過 ENTERPRISEID, COLLISION_ID)
+常用查詢模式:
+•	ICON類型統計: GROUP BY ICON_NAME
+•	群組別ICON數量: GROUP BY ICON_GROUP_ID
+•	ICON空間分布: 使用 LNG, LAT 進行空間分析
+•	大小別統計: GROUP BY WIDTH, HEIGHT
+•	旋轉角度分析: GROUP BY ROTATE
+•	特定區域ICON查詢: WHERE LNG BETWEEN ? AND ? AND LAT BETWEEN ? AND ?
+•	一對多 -> COLLISION_SUBJUNCTION_AZIMUTH (透過 ENTERPRISEID, COLLISION_ID, SUBJUNCTION_ID)
+常用查詢模式:
+•	案件子路口統計: GROUP BY COLLISION_ID
+•	岔入口數量分析: GROUP BY SUBJUNCTION_NUMBER
+•	子路口空間分布: 使用 SUBJUNCTION_LAT, SUBJUNCTION_LNG 進行空間查詢
+•	複雜路口識別: WHERE SUBJUNCTION_NUMBER > 4
+•	角色操作統計: GROUP BY ROLEID

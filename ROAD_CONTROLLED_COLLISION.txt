@@ -1,0 +1,24 @@
+28. ROAD_CONTROLLED_COLLISION - 列管路口碰撞構圖資料
+表名: ROAD_CONTROLLED_COLLISION
+業務領域: 道路改善管理
+表類型: 檔案管理表
+描述: 列管路口碰撞構圖檔案管理表，儲存改善前後的碰撞分析圖片與相關時間資訊
+主鍵結構:
+•	ENTERPRISEID (主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	PROJECT_ID (nvarchar(50)): 列管路口編號
+•	IMG_NAME (nvarchar(50)): 圖片名稱
+•	IMG_TYPE (nvarchar(10)): 圖片檔案類型 (png/jpg/jpeg)
+•	IMG_URL (nvarchar(100)): 圖片儲存路徑
+•	DATATIME (nvarchar(30)): 圖片上傳時間 (yyyymmddhhmmss)
+•	ACCIDENT_START_DATE (date): 事故統計起始日期
+•	ACCIDENT_END_DATE (date): 事故統計結束日期
+關聯關係:
+•	多對一 -> ROAD_CONTROLLED_LIST (透過 PROJECT_ID)
+常用查詢模式:
+•	路口圖片查詢: WHERE PROJECT_ID = ?
+•	檔案類型統計: GROUP BY IMG_TYPE
+•	時間範圍篩選: WHERE ACCIDENT_START_DATE >= ? AND ACCIDENT_END_DATE <= ?
+•	最新圖片查詢: ORDER BY DATATIME DESC
+•	圖片路徑取得: SELECT IMG_URL WHERE IMG_NAME = ?

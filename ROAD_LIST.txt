@@ -1,0 +1,16 @@
+7. ROAD_LIST - 道路清單主檔表
+表名: ROAD_LIST 業務領域: 道路管理 表類型: 主檔表 描述: 紀錄所有路口或路段的基本清單資訊
+主鍵結構:
+•	ENTERPRISEID + ROAD_ID (複合主鍵)
+核心欄位:
+•	ENTERPRISEID (varchar): 企業代碼，主鍵
+•	ROAD_ID (varchar): 路口編號，主鍵，流水編號
+•	ROAD_NAME (varchar): 路口/路段名稱
+•	COUNTYCODE (varchar): 縣市代碼
+•	COUNTYNAME (varchar): 縣市名稱
+•	TOWNCODE (varchar): 行政區代碼
+•	TOWNNAME (varchar): 行政區名稱
+常用查詢模式:
+•	縣市路口統計: GROUP BY COUNTYNAME
+•	行政區彙整: GROUP BY TOWNNAME
+•	企業轄區查詢: WHERE ENTERPRISEID = ?

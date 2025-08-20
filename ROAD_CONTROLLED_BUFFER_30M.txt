@@ -1,0 +1,22 @@
+27. ROAD_CONTROLLED_BUFFER_30M - 列管路口範圍
+表名: ROAD_CONTROLLED_BUFFER_30M
+業務領域: 道路改善管理
+表類型: 空間資料表
+描述: 列管路口環域範圍資料表，以30公尺為基準建立路口影響範圍，支援空間分析與事故關聯
+主鍵結構:
+•	ENTERPRISEID (主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	PROJECT_ID (nvarchar(50)): 列管路口編號
+•	BUFF_DIST (int): 環域範圍尺度(公尺)
+•	ORIG_FID (int): 原始編號
+•	BUFF_GEOMETRY (geometry): 範圍空間資料，多邊形幾何
+關聯關係:
+•	多對一 -> ROAD_CONTROLLED_LIST (透過 PROJECT_ID)
+•	一對一 -> ROAD_CONTROLLED_POINT (透過 PROJECT_ID)
+常用查詢模式:
+•	環域範圍查詢: WHERE BUFF_GEOMETRY.STContains(@point) = 1
+•	範圍內事故統計: 與 ACCIDENT_TABLE_ONE 進行空間 JOIN
+•	重疊範圍分析: WHERE BUFF_GEOMETRY.STOverlaps(@other_geometry) = 1
+•	範圍面積計算: SELECT BUFF_GEOMETRY.STArea()
+•	不同距離環域: WHERE BUFF_DIST = 30

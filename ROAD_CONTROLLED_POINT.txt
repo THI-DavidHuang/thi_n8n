@@ -1,0 +1,20 @@
+26. ROAD_CONTROLLED_POINT - 列管路口點位
+表名: ROAD_CONTROLLED_POINT
+業務領域: 道路改善管理
+表類型: 空間資料表
+描述: 列管路口精確點位空間資料表，使用SQL Server geometry型別儲存路口座標資訊
+主鍵結構:
+•	ENTERPRISEID (主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	PROJECT_ID (nvarchar(50)): 列管路口編號
+•	POINT_GEOMETRY (geometry): 點位空間資料，WGS84座標系統
+關聯關係:
+•	多對一 -> ROAD_CONTROLLED_LIST (透過 PROJECT_ID)
+•	一對一 -> ROAD_CONTROLLED_BUFFER_30M (透過 PROJECT_ID)
+常用查詢模式:
+•	空間點位查詢: WHERE POINT_GEOMETRY.STWithin(@polygon) = 1
+•	距離計算: SELECT POINT_GEOMETRY.STDistance(@point)
+•	範圍內路口: WHERE POINT_GEOMETRY.STIntersects(@buffer) = 1
+•	座標提取: SELECT POINT_GEOMETRY.STX, POINT_GEOMETRY.STY
+•	空間索引查詢: 使用空間索引優化查詢效能

@@ -1,0 +1,29 @@
+19. BASE_COLLISION_TYPE - 碰撞型態對照表
+表名: BASE_COLLISION_TYPE
+業務領域: 交通事故碰撞分析
+表類型: 代碼表
+描述: 碰撞型態標準分類對照表，包含碰撞圖塊類型、圖例、當事者方向、資訊放置位置等，支援碰撞分析視覺化
+主鍵結構:
+•	ENTERPRISEID + COLLISION_TYPE_CLASS_CODE + COLLISION_TYPE_SUB_CLASS_CODE + COLLISION_TYPE_PARTIES_DIRECTION (複合主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	COLLISION_TYPE_CLASS_CODE (nvarchar(20)): 碰撞圖塊類型代碼，主鍵
+•	COLLISION_TYPE_CLASS_NAME (nvarchar(20)): 碰撞圖塊類型名稱
+•	COLLISION_TYPE_SUB_CLASS_CODE (nvarchar(20)): 碰撞圖塊類型子類別代碼，主鍵
+•	COLLISION_TYPE_SUB_CLASS_NAME (nvarchar(20)): 碰撞圖塊類型子類別名稱
+•	COLLISION_TYPE_SUB_CLASS_ICON (nvarchar(20)): 碰撞圖塊類型子類別圖例
+•	COLLISION_TYPE_PARTIES_DIRECTION (nvarchar(20)): 當事者碰撞方向，主鍵
+•	PARTIES_INFO_ICON_POSTION (nvarchar(20)): 當事者資訊放置位置
+•	CASUALTY_INFO_ICON_POSTION (nvarchar(20)): 死傷人數放置位置
+•	COLLISION_TYPE_DESCRIPTION (nvarchar(max)): 說明文字內容
+•	ICON_DISPLACEMENT (nvarchar(100)): ICON位移CSS樣式
+關聯關係:
+•	一對多 -> COLLISION_ACCIDENT_EVALUATE (透過碰撞類型代碼)
+•	一對多 -> BASE_COLLISION_TYPE_POSTION (透過複合鍵)
+常用查詢模式:
+•	碰撞類型代碼對照: JOIN 其他表格 ON COLLISION_TYPE_SUB_CLASS_CODE
+•	大類別統計: GROUP BY COLLISION_TYPE_CLASS_NAME
+•	子類別分布: GROUP BY COLLISION_TYPE_SUB_CLASS_NAME
+•	方向別統計: GROUP BY COLLISION_TYPE_PARTIES_DIRECTION
+•	圖例資源查詢: WHERE COLLISION_TYPE_SUB_CLASS_ICON IS NOT NULL
+•	完整碰撞分類清單: ORDER BY COLLISION_TYPE_CLASS_CODE, COLLISION_TYPE_SUB_CLASS_CODE

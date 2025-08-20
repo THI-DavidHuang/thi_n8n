@@ -1,0 +1,21 @@
+8. ACCIDENT_TOP20_ROAD_LIST - 高風險路口統計表
+表名: ACCIDENT_TOP20_ROAD_LIST 業務領域: 交通安全分析 表類型: 統計表 描述: 各年度事故發生次數前20名的高風險路口資料
+主鍵結構:
+•	JUNCTION_ID + OCCUR_YEAR (複合主鍵)
+核心欄位:
+•	JUNCTION_ID (varchar): 路口編號，主鍵
+•	JUNCTION_NAME (varchar): 路口名稱
+•	TOWNCODE (varchar): 行政區代碼
+•	TOWNNAME (varchar): 行政區名稱
+•	OCCUR_YEAR (int): 統計年度，主鍵
+•	POSITION_LNG (decimal): 路口經度(WGS84)
+•	POSITION_LAT (decimal): 路口緯度(WGS84)
+•	ACCIDENT_COUNT (int): 該路口該年度事故總次數
+•	DEATH_COUNT (int): 該路口死亡人數總計
+•	CASUALTY_COUNT (int): 該路口受傷人數總計
+•	CBI (decimal): 危險指數(Composite Blackspot Index)
+常用查詢模式:
+•	年度高風險排行: ORDER BY OCCUR_YEAR, ACCIDENT_COUNT DESC
+•	地圖熱區標記: 使用 POSITION_LAT, POSITION_LNG
+•	行政區風險比較: GROUP BY TOWNNAME
+•	CBI與死傷關聯: 分析 CBI vs DEATH_COUNT, CASUALTY_COUNT

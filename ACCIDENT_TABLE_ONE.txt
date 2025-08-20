@@ -1,0 +1,45 @@
+1. ACCIDENT_TABLE_ONE - 事故基本資料表
+表名: ACCIDENT_TABLE_ONE 業務領域: 交通事故管理 表類型: 主表 描述: 紀錄事故發生事件的基本資訊，包括時間、地點、案件類型、氣候、道路環境、死亡與受傷人數等
+主鍵結構:
+•	ACCIDENT_ID (事故案件編號)
+•	ENTERPRISEID (企業代碼)
+核心欄位:
+•	ACCIDENT_ID (varchar): 事故案件編號，主鍵
+•	ENTERPRISEID (varchar): 企業代碼，主鍵，用於識別資料來源
+•	OCCUR_DATE (date): 事故發生日期
+•	OCCUR_YEAR (int): 發生年度
+•	OCCUR_MONTH (int): 發生月份
+•	OCCUR_TIME (sql_variant): 發生時間，可進行時段分析
+•	POSITION_LNG (decimal): GPS經度座標，空間分析用
+•	POSITION_LAT (decimal): GPS緯度座標，空間分析用
+•	ADDRESS_CITY_NAME (varchar): 事故發生縣市
+•	ADDRESS_TOWNSHIP_NAME (varchar): 事故發生鄉鎮
+•	ACCIDENT_NAME (varchar): 事故類型 (A1, A2, A3)
+•	CASE_NAME (varchar): 案件處理類型
+•	DEATH_TOLL_24_H (int): 24小時內死亡人數
+•	DEATH_TOLL_2_30_DAY (int): 2～30日死亡人數
+•	CASUALTY_TOLL (int): 受傷人數
+•	WEATHER_NAME (varchar): 天候條件
+•	LIGHT_NAME (varchar): 光線條件
+•	ACCIDENT_TYPE_SUB_CLASS_NAME (varchar): 事故型態
+•	CAUSE_ATTRBUTION_SUB_CLASS_CODE (varchar): 肇因研判子類別代碼
+•	CAUSE_ATTRBUTION_SUB_CLASS_NAME (varchar): 肇因研判子類別名稱
+•	ROAD_TYPE_CLASS_NAME (varchar): 道路型態大分類
+•	ROAD_TYPE_SUB_CLASS_NAME (varchar): 道路型態子分類
+•	ACCIDENT_LOCATION_CLASS_NAME (varchar): 事故發生位置大分類
+•	ACCIDENT_LOCATION_SUB_CLASS_NAME (varchar): 事故發生位置子分類
+•	FIRST_PARTIES_ROAD_SPEED_LIMIT (int): 第1當事人速限
+•	OCCUR_LANDMARK (varchar): 事故現場地點描述
+•	SIGNALS_TYPE_NAME (varchar): 號誌種類
+•	SIGNALS_ACTION_NAME (varchar): 號誌動作
+•	OFF_FILE (varchar): 關檔狀態
+•	PROCESS_NAME (varchar): 處理狀態
+關聯關係:
+•	一對多 -> ACCIDENT_TABLE_TWO (透過 ACCIDENT_ID, ENTERPRISEID)
+常用查詢模式:
+•	時間趨勢分析: GROUP BY OCCUR_YEAR, OCCUR_MONTH
+•	地點熱區分析: GROUP BY ADDRESS_CITY_NAME, ADDRESS_TOWNSHIP_NAME
+•	事故類型統計: GROUP BY ACCIDENT_NAME
+•	肇因交叉分析: GROUP BY CAUSE_ATTRBUTION_SUB_CLASS_CODE, ACCIDENT_TYPE_SUB_CLASS_NAME
+•	時段分析: GROUP BY DATEPART(HOUR, OCCUR_TIME)
+•	空間分析: 使用 POSITION_LNG, POSITION_LAT 進行 GIS 分析

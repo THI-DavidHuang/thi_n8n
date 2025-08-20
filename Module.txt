@@ -1,0 +1,12 @@
+4. Module - 系統模組定義表
+表名: Module 業務領域: 系統管理 表類型: 設定表 描述: 定義系統中各功能模組與頁面名稱的結構
+主鍵結構:
+•	ParentNode + ChildNode (複合主鍵)
+核心欄位:
+•	ParentNode (varchar): 父節點代碼，主鍵
+•	ChildNode (varchar): 子節點代碼，主鍵
+•	ChildName (varchar): 實際頁面名稱
+關聯關係:
+•	一對多 -> TransactionLog (透過 ParentNode, ChildNode)
+常用查詢模式:
+•	頁面名稱對照: JOIN TransactionLog ON ParentNode, ChildNode

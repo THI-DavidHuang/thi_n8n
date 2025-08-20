@@ -1,0 +1,31 @@
+15. COLLISION_ACCIDENT_EVALUATE_PARTIES - 事故類型評估子表-當事人
+表名: COLLISION_ACCIDENT_EVALUATE_PARTIES
+業務領域: 交通事故碰撞分析
+表類型: 明細表
+描述: 紀錄事故評估中各當事人的詳細資訊，包括行進方向、車種、年齡、肇因研判、碰撞方向等
+主鍵結構:
+•	ENTERPRISEID + COLLISION_ID + ACCIDENT_ID + PARTIES_ID (複合主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	COLLISION_ID (int): 案件編號，主鍵
+•	ACCIDENT_ID (nvarchar(30)): 事故編號，主鍵
+•	PARTIES_ID (nvarchar(30)): 當事人編號，主鍵
+•	PARTIES_IN (nvarchar(30)): 當事人來向，方位標示 (S/W/E/N)
+•	PARTIES_OUT (nvarchar(30)): 當事人去向，行駛目標方向
+•	PARTIES_SUB_CLASS_CODE (nvarchar(20)): 當事者車種子類別代碼
+•	PARTIES_SUB_CLASS_NAME (nvarchar(20)): 當事者車種子類別名稱
+•	PARTIES_ACCIDENT_AGE (nvarchar(20)): 當事者事故發生時年齡
+•	CAUSE_ATTRBUTION_SUB_CLASS_CODE (nvarchar(20)): 個別肇因研判子類別代碼
+•	CAUSE_ATTRBUTION_SUB_CLASS_NAME (nvarchar(50)): 個別肇因研判子類別名稱
+•	COLLISION_TYPE_PARTIES_DIRECTION (nvarchar(20)): 當事者碰撞方向
+關聯關係:
+•	多對一 -> COLLISION_ACCIDENT_EVALUATE (透過 ENTERPRISEID, COLLISION_ID, ACCIDENT_ID)
+•	可能關聯 -> ACCIDENT_TABLE_TWO (透過相關欄位比對)
+常用查詢模式:
+•	來向去向交叉分析: GROUP BY PARTIES_IN, PARTIES_OUT
+•	車種事故統計: GROUP BY PARTIES_SUB_CLASS_NAME
+•	年齡層分析: GROUP BY PARTIES_ACCIDENT_AGE
+•	肇因研判統計: GROUP BY CAUSE_ATTRBUTION_SUB_CLASS_NAME
+•	碰撞方向分析: GROUP BY COLLISION_TYPE_PARTIES_DIRECTION
+•	特定方向事故查詢: WHERE PARTIES_IN = 'N' AND PARTIES_OUT = 'S'
+•	當事人肇因交叉: GROUP BY PARTIES_SUB_CLASS_NAME, CAUSE_ATTRBUTION_SUB_CLASS_NAME

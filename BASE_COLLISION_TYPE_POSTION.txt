@@ -1,0 +1,26 @@
+20. BASE_COLLISION_TYPE_POSTION - 碰撞型態CSS對照表
+表名: BASE_COLLISION_TYPE_POSTION
+業務領域: 交通事故碰撞分析
+表類型: 樣式表
+描述: 碰撞型態視覺化樣式設定表，定義各種碰撞類型的CSS樣式與文字放置位置，支援前端展示
+主鍵結構:
+•	ENTERPRISEID + COLLISION_TYPE_CLASS_CODE + COLLISION_TYPE_SUB_CLASS_CODE + COLLISION_TYPE_PARTIES_DIRECTION (複合主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	COLLISION_TYPE_CLASS_CODE (nvarchar(20)): 碰撞圖塊類型代碼，主鍵
+•	COLLISION_TYPE_CLASS_NAME (nvarchar(20)): 碰撞圖塊類型名稱
+•	COLLISION_TYPE_SUB_CLASS_CODE (nvarchar(20)): 碰撞圖塊類型子類別代碼，主鍵
+•	COLLISION_TYPE_SUB_CLASS_NAME (nvarchar(20)): 碰撞圖塊類型子類別名稱
+•	COLLISION_TYPE_SUB_CLASS_ICON (nvarchar(20)): 碰撞圖塊類型子類別圖例
+•	COLLISION_TYPE_PARTIES_DIRECTION (nvarchar(20)): 當事者碰撞方向，主鍵
+•	POSTION_TYPE (nvarchar(30)): 文字類型標識
+•	PARTIES_INFO_CSS (nvarchar(100)): 當事人資訊CSS樣式
+•	CASUALTY_INFO_CSS (nvarchar(100)): 死傷人數CSS樣式
+關聯關係:
+•	多對一 -> BASE_COLLISION_TYPE (透過複合鍵)
+常用查詢模式:
+•	CSS樣式查詢: WHERE COLLISION_TYPE_SUB_CLASS_CODE = ? AND COLLISION_TYPE_PARTIES_DIRECTION = ?
+•	文字類型統計: GROUP BY POSTION_TYPE
+•	樣式配置清單: SELECT COLLISION_TYPE_SUB_CLASS_NAME, PARTIES_INFO_CSS, CASUALTY_INFO_CSS
+•	特定方向樣式: WHERE COLLISION_TYPE_PARTIES_DIRECTION = ?
+•	完整樣式對照: JOIN BASE_COLLISION_TYPE ON 複合鍵

@@ -1,0 +1,18 @@
+24. BASE_ROAD_CASE_TYPE - 列管路口案件類型
+表名: BASE_ROAD_CASE_TYPE
+業務領域: 道路改善管理
+表類型: 代碼表
+描述: 列管路口案件類型標準分類表，定義各種道路改善案件的類型與排序
+主鍵結構:
+•	ENTERPRISEID + CASE_TYPE (複合主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	SORT (int): 排序順序
+•	CASE_TYPE (nvarchar(30)): 案件類型名稱，主鍵
+關聯關係:
+•	一對多 -> ROAD_CONTROLLED_LIST (透過 CASE_TYPE)
+常用查詢模式:
+•	案件類型清單: ORDER BY SORT
+•	特定類型查詢: WHERE CASE_TYPE = ?
+•	類型統計: 與 ROAD_CONTROLLED_LIST JOIN 後 GROUP BY CASE_TYPE
+•	排序維護: UPDATE SET SORT = ? WHERE CASE_TYPE = ?

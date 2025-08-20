@@ -1,0 +1,23 @@
+29. ROAD_CONTROLLED_RESULT - 列管路口建設成果
+表名: ROAD_CONTROLLED_RESULT
+業務領域: 道路改善管理
+表類型: 檔案管理表
+描述: 列管路口建設成果檔案管理表，記錄改善工程完成後的現場照片與成果資料
+主鍵結構:
+•	ENTERPRISEID (主鍵)
+核心欄位:
+•	ENTERPRISEID (nvarchar(15)): 企業代碼，主鍵
+•	PROJECT_ID (nvarchar(50)): 列管路口編號
+•	FILE_NAME (nvarchar(50)): 檔案名稱
+•	FILE_TYPE (nvarchar(10)): 檔案類型 (png/jpg/jpeg)
+•	FILE_URL (nvarchar(100)): 檔案儲存路徑
+•	DATATIME (nvarchar(30)): 檔案上傳時間 (yyyymmddhhmmss)
+關聯關係:
+•	多對一 -> ROAD_CONTROLLED_LIST (透過 PROJECT_ID)
+常用查詢模式:
+•	路口成果查詢: WHERE PROJECT_ID = ?
+•	檔案類型統計: GROUP BY FILE_TYPE
+•	最新成果: ORDER BY DATATIME DESC
+•	成果檔案路徑: SELECT FILE_URL WHERE FILE_NAME = ?
+•	批次檔案管理: WHERE PROJECT_ID IN (?,?,?)
+時間序列成果: ORDER BY PROJECT_ID, DATATIME
