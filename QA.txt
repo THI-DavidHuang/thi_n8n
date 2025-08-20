@@ -1,0 +1,57 @@
+🧠 自然語意轉換規則
+使用者語意關鍵詞	SQL 結構建議	圖表建議
+每年變化 / 趨勢	GROUP BY OCCUR_YEAR	line
+每月統計 / 趨勢	GROUP BY OCCUR_MONTH	line / bar
+各縣市事故總數	GROUP BY ADDRESS_CITY_NAME	bar / pie
+各年/月 × 縣市	GROUP BY OCCUR_YEAR, ADDRESS_CITY_NAME	heatmap
+事故類型占比	GROUP BY ACCIDENT_NAME	pie
+性別 × 年齡交叉分析	GROUP BY PARTIES_GENDER_NAME, 年齡層	heatmap
+前 X 名 / Top N	TOP N + ORDER BY COUNT(*) DESC	bar
+熱區分析 / 空間分布	GROUP BY ADDRESS_CITY_NAME/ADDRESS_TOWNSHIP_NAME	heatmap / geo
+近期、近幾個月	WHERE OCCUR_DATE >= DATEADD(...)	line
+依日期排列	ORDER BY OCCUR_DATE	line / table
+📅 日期函數建議（MSSQL）
+時間維度	建議函數
+年	YEAR(OCCUR_DATE) 或 OCCUR_YEAR
+月	MONTH(OCCUR_DATE) 或 OCCUR_MONTH
+日	CAST(OCCUR_DATE AS DATE)
+小時	DATEPART(HOUR, OCCUR_TIME)
+📊 圖表類型定義
+圖表類型	適用情境	資料特性
+line	時間趨勢、變化走向	連續型時間序列
+bar	類別比較、排行榜	離散類別資料
+pie	比例分布、占比分析	部分與整體關係
+heatmap	交叉分析、熱區分布	雙維度交叉資料
+table	詳細資料列表	多欄位明細資料
+geo	地理分布分析	具地理座標資料
+🔗 關聯查詢規則
+JOIN 優先順序
+1.	事故基本資料 + 當事人資料：
+2.	FROM ACCIDENT_TABLE_ONE A1
+3.	JOIN ACCIDENT_TABLE_TWO A2 ON A1.ACCIDENT_ID = A2.ACCIDENT_ID 
+4.	                           AND A1.ENTERPRISEID = A2.ENTERPRISEID
+5.	當事人資料 + 分類對照：
+6.	FROM ACCIDENT_TABLE_TWO A2
+7.	JOIN BASE_PARTIES_CLASS BPC ON A2.PARTIES_SUB_CLASS_CODE = BPC.PARTIES_SUB_CLASS_CODE
+8.	系統操作 + 使用者資料：
+9.	FROM TransactionLog TL
+10.	JOIN UserMaster UM ON TL.UserId = UM.UserId
+關鍵關聯欄位
+•	事故資料關聯：ACCIDENT_ID + ENTERPRISEID
+•	使用者行為關聯：UserId
+•	頁面功能關聯：ParentNode + ChildNode
+•	車種分類關聯：PARTIES_SUB_CLASS_CODE
+🎯 專題分析條件
+預定義專題篩選
+-- 年輕機車族 (代碼1)
+WHERE A2.PARTIES_SUB_CLASS_CODE IN ('C01','C02','C03','C04','C05') 
+  AND A2.PARTIES_ACCIDENT_AGE BETWEEN 18 AND 24
+
+-- 行人專案 (代碼2)  
+WHERE A2.PARTIES_SUB_CLASS_CODE = 'H01'
+
+-- 老人專案 (代碼3)
+WHERE A2.PARTIES_ACCIDENT_AGE >= 65
+
+-- 酒駕專案 (代碼4)
+WHERE A2.DRINKING_STATUS_CODE BETWEEN 4 AND 8
